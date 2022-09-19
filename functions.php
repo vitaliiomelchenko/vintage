@@ -14,8 +14,8 @@ function smk_get_comment_time( $comment_id = 0 ){
 }
 
 
-add_filter( 'comment_form_fields', 'move_comment_field' );
-function move_comment_field( $fields ) {
+add_filter( 'comment_form_fields', 'vintage_move_comment_field' );
+function vintage_move_comment_field( $fields ) {
     $comment_field = $fields['comment'];
     $cookies_field = $fields['cookies'];
     //var_dump($fields);
