@@ -295,11 +295,14 @@ nav {
   background: url(../img/corner-4.png) no-repeat top left;
 }
 /* CONTACT ------------------------------------------------------------*/
-#map_canvas {
-  display: block;
-  height: 300px;
+.acf-map {
   width: 100%;
-  margin-bottom: 20px;
+  height: 400px;
+  border: #ccc solid 1px;
+  margin: 20px 0;
+}
+.acf-map img {
+ max-width: inherit !important;
 }
 /* PORTFOLIO ----------------------------------------------------*/.portfolio-content {
   margin-bottom: 40px;

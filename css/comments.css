@@ -266,7 +266,9 @@
   box-shadow: 0px 0px 3px rgba(251, 228, 113, 0.4);
 }
 #commentform input[type="text"],
+#commentform input[type="email"],
 #contactForm input[type="text"],
+#contactForm input[type="email"],
 #commentform input[type="password"],
 #contactForm input[type="password"] {
   overflow: auto;

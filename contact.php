@@ -4,64 +4,71 @@
  * Template name: Contact
  */
 
-get_header(); ?>
+get_header();
+
+$location = get_field('location');
+$content = get_field('content');
+?>
 
 
 <div class="page-content">
 
     <h2 class="heading"><?php the_title();?></h2>
-    <div id="map_canvas"></div>
-    <p> Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet.</p>
+
+    <?php 
+    if( $location ): ?>
+        <div class="acf-map" data-zoom="16">
+            <div class="marker" data-lat="<?php echo esc_attr($location['lat']); ?>" data-lng="<?php echo esc_attr($location['lng']); ?>"></div>
+        </div>
+    <?php endif; ?>
+
+    <!-- START GOOGLE MAPS -->
+    <?php if( have_rows('locations_2') ): ?>
+        
+        <div class="acf-map" data-zoom="16">
+            <?php while ( have_rows('locations') ) : the_row(); 
+
+                // Load sub field values.
+                $location = get_sub_field('location');
+                $title = get_sub_field('title');
+                $description = get_sub_field('description');
+                ?>
+                <div class="marker" data-lat="<?php echo esc_attr($location['lat']); ?>" data-lng="<?php echo esc_attr($location['lng']); ?>">
+                    <h3><?php echo esc_html( $title ); ?></h3>
+                    <p><em><?php echo esc_html( $location['address'] ); ?></em></p>
+                    <p><?php echo esc_html( $description ); ?></p>
+                </div>
+        <?php endwhile; ?>
+        </div>
+
+        
+    <?php endif; ?>
+
     <!-- ENDS GOOGLE MAPS -->
+
+
+
+    <?php if ($content) : ?>
+
+        <?php echo $content; ?>
+
+    <?php endif; ?>
+
+
+    
     <h2 class="heading">Contact Form</h2>
+
     <!-- form -->
-    <form id="contactForm" action="#" method="post">
-    <fieldset>
-        <p>
-        <label for="name" >Name</label>
-        <input name="name"  id="name" type="text" class="form-poshytip" title="Enter your full name">
-        </p>
-        <p>
-        <label for="email" >Email</label>
-        <input name="email"  id="email" type="text" class="form-poshytip" title="Enter your email address">
-        </p>
-        <p>
-        <label for="web">Website</label>
-        <input name="web"  id="web" type="text" class="form-poshytip" title="Enter your website">
-        </p>
-        <p>
-        <label for="comments">Message</label>
-        <textarea  name="comments"  id="comments" rows="5" cols="20" class="form-poshytip" title="Enter your comments"></textarea>
-        </p>
-        <p>
-        <input type="button" value="Send" name="submit" id="submit">
-        <span id="error" class="warning">Error Message</span></p>
-    </fieldset>
-    </form>
-    <p id="sent-form-msg" class="success">Form data sent. Thanks for your comments.</p>
+    <div id="contactForm" class="">
+        <?php echo do_shortcode('[contact-form-7 id="128" title="Contact form"]') ; ?>
+    </div>
+    
     <!-- ENDS form -->
     <div class="c-1"></div>
     <div class="c-2"></div>
     <div class="c-3"></div>
     <div class="c-4"></div>
 </div>
-
-    <!-- GOOGLE MAPS -->
-    <script src="https://maps.google.com/maps/api/js?sensor=true"></script>
-    <script>
-    function initialize() {
-        var latlng = new google.maps.LatLng(-34.397, 150.644);
-        var myOptions = {
-            zoom: 8,
-            center: latlng,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        var map = new google.maps.Map(document.getElementById("map_canvas"),
-        myOptions);
-    }
-
-    initialize();
-    </script>
 
 
 <?php get_footer();?>

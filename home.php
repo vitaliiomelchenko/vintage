@@ -48,27 +48,82 @@
         <!-- sidebar -->
         <aside id="sidebar">
             <ul>
+            <?php 
+
+            $sponsors = get_field('sponsors_list', get_option('page_for_posts'));
+
+            if ($sponsors) : ?>
+
+
             <li class="block">
                 <h4 class="heading">Sponsors</h4>
-                <div class="ads cf"> <a href="#"><img src="<?php echo get_template_directory_uri();?>/img//dummies/themeforest.gif" alt=""></a> <a href="#" class="last"><img src="<?php echo get_template_directory_uri();?>/img//dummies/mojo.jpeg" alt=""></a> <a href="#"><img src="<?php echo get_template_directory_uri();?>/img//dummies/themeforest.gif" alt=""></a> <a href="#" class="last"><img src="<?php echo get_template_directory_uri();?>/img//dummies/mojo.jpeg" alt=""></a> </div>
+                <div class="ads cf">
+
+                <?php 
+                $i = 0;
+                foreach($sponsors as $sponsor) : 
+                    $i++;
+                    $image = $sponsor['sponsor_image'];
+                    $url = $sponsor['sponsor_url'];
+                    
+                    if ($i % 2 == 0) : $class = "last"; else : $class = ""; endif; 
+                    //$class = ($i % 2 == 0) ? "last" : $class = ""; 
+                    ?>
+                     <a class="<?php echo $class;?>" href="<?php echo $url;?> ">
+                        <img src="<?php echo $image['url'];?>" alt="<?php echo $image['alt'];?>">
+                    </a>
+
+                <?php endforeach; ?> 
             </li>
+
+            <?php endif;?>
+
+            <?php 
+
+            $textWidgetTitle = get_field('widget_title', 'option');
+            $textWidgeContent= get_field('text_widget_content',get_option('page_for_posts'));
+
+            
+            if ($textWidgeContent) : 
+            ?>
+
             <li class="block">
-                <h4 class="heading">Text Widget</h4>
-                Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. </li>
+                <?php if ($textWidgetTitle) : ?>
+                    <h4 class="heading"><?php echo $textWidgetTitle; ?></h4>
+                <?php endif; ?>
+
+                <?php echo $textWidgeContent;?>
+            </li>
+
+            <?php endif; ?>
+    
+            <?php 
+
+            $args = array(
+                'taxonomy' => 'category',
+                'hide_empty' => true,
+                'exclude' => array('1')
+            );
+
+            $terms = get_categories($args);
+            //var_dump($terms);
+            if ($terms) : ?>
             <li class="block">
                 <h4 class="heading">Categories</h4>
                 <ul>
-                <li class="cat-item"><a href="#">Film and video<span class="post-counter"> (2)</span></a></li>
-                <li class="cat-item"><a href="#">Print<span class="post-counter"> (2)</span></a></li>
-                <li class="cat-item"><a href="#">Photo and lomo<span class="post-counter"> (2)</span></a></li>
-                <li class="cat-item"><a href="#">Habitant morbi<span class="post-counter"> (2)</span></a></li>
-                <li class="cat-item"><a href="#">Film and video<span class="post-counter"> (2)</span></a></li>
-                <li class="cat-item"><a href="#">Print<span class="post-counter"> (2)</span></a></li>
-                <li class="cat-item"><a href="#">Photo and lomo<span class="post-counter"> (2)</span></a></li>
-                <li class="cat-item"><a href="#">Habitant morbi<span class="post-counter"> (2)</span></a></li>
+                    <?php foreach ($terms as $term) : 
+                        $termid = $term->term_id; ?>
+                        <li class="cat-item">
+                            <a href="<?php echo get_term_link($term) ;?>">
+                                <?php echo $term->name;?>
+                                <span class="post-counter"> (<?php echo $term->count;?>)</span>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
                 </ul>
             </li>
-            </ul>
+            <?php endif; ?>
+            
         </aside>
         <!-- ENDS sidebar -->
     </div>
