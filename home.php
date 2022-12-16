@@ -78,24 +78,32 @@
 
             <?php endif;?>
 
+            <!-- Start shorts -->
+
             <?php 
 
             $textWidgetTitle = get_field('widget_title', 'option');
-            $textWidgeContent= get_field('text_widget_content',get_option('page_for_posts'));
-
-            
-            if ($textWidgeContent) : 
-            ?>
+            $textWidgeContent= get_field('content_widget','option');
+ 
+            if ($textWidgeContent) : ?>
 
             <li class="block">
+        
                 <?php if ($textWidgetTitle) : ?>
-                    <h4 class="heading"><?php echo $textWidgetTitle; ?></h4>
-                <?php endif; ?>
 
+                    <h4 class="heading"><?php echo $textWidgetTitle; ?></h4>
+
+                <?php endif; ?>
+                
                 <?php echo $textWidgeContent;?>
             </li>
 
             <?php endif; ?>
+
+
+            <!-- End shorts -->
+
+            
     
             <?php 
 

@@ -17,20 +17,35 @@
     <!-- ENDS social -->
     <!-- widgets -->
     <ul  class="widget-cols cf">
+      <?php 
+
+      $args = array(
+        'numberposts' => 3,
+        'post_type' => 'post',
+        'orderby' => 'rand'
+      );
+
+      $posts = get_posts( $args );
+      if ($posts) : ?>
+      
       <li class="first-col">
         <div class="widget-block">
           <h4>RECENT POSTS</h4>
-          <div class="recent-post cf"> <a href="#" class="thumb"><img src="<?php echo get_template_directory_uri();?>/img/dummies/54x54.gif" alt=""></a>
-            <div class="post-head"> <a href="#">Pellentesque habitant morbi senectus </a><span> March 12, 2011</span> </div>
+          <?php foreach ($posts as $post) : ?>
+            <div class="recent-post cf">
+              <a href="<?php the_permalink();?>" class="thumb">
+                <img src="<?php echo get_the_post_thumbnail_url();?>" alt="" width="54" height="54" style="object-fit: cover;">
+              </a>
+              <div class="post-head"> 
+                <a href="<?php the_permalink();?>"><?php the_title();?></a>
+                <span><?php the_time('M d, Y');?></span>
+              </div>
           </div>
-          <div class="recent-post cf"> <a href="#" class="thumb"><img src="<?php echo get_template_directory_uri();?>/img/dummies/54x54b.gif" alt=""></a>
-            <div class="post-head"> <a href="#">Pellentesque habitant morbi senectus</a><span> March 12, 2011</span> </div>
-          </div>
-          <div class="recent-post cf"> <a href="#" class="thumb"><img src="<?php echo get_template_directory_uri();?>/img/dummies/54x54c.gif" alt=""></a>
-            <div class="post-head"> <a href="#">Pellentesque habitant morbi senectus</a><span> March 12, 2011</span> </div>
-          </div>
+          <?php endforeach; ?>
         </div>
       </li>
+      <?php endif; ?>
+
       <li class="second-col">
         <div class="widget-block">
           <h4>ABOUT</h4>
